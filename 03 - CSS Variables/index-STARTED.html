@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scoped CSS Variables and JS</title>
+</head>
+<body>
+  <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
+
+  <div class="controls">
+    <label for="fontSize">Round Corners:</label>
+    <input id="fontSize" type="range" name="spacing" min="0" max="200" value="0" data-sizing="px">
+
+    <label for="blur">Blur:</label>
+    <input id="blur" type="range" name="blur" min="0" max="25" value="0" data-sizing="px">
+
+    <label for="base">Base Color</label>
+    <input id="base" type="color" name="base" value="#ffc600">
+  </div>
+
+  <img id="toBeBlurred" src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
+
+  <style>
+
+    /*
+      misc styles, nothing to do with CSS variables
+    */
+
+    :root {
+      --base: #ffc600;
+      --imgRound: 0px;
+      --blur: 0px;
+    }
+
+
+    body {
+      text-align: center;
+      background-color: var(--base);
+      color: white;
+      font-family: 'helvetica neue', sans-serif;
+      font-weight: 100;
+    }
+
+    .controls {
+      margin-bottom: 50px;
+    }
+
+    #toBeBlurred {
+      border-radius: var(--imgRound);
+      filter: blur(var(--blur));
+    }
+
+    input {
+      width:100px;
+    }
+  </style>
+
+  <script>
+
+    const fontSizeControl = document.querySelector("#fontSize");
+    const blurControl = document.querySelector("#blur");
+    const baseControl = document.querySelector("#base");
+
+    function updatePixel(e){
+        console.log(e);
+        const fontSizeValue = document.querySelector("#fontSize").value;
+        const blurValue = document.querySelector("#blur").value;
+
+
+        document.documentElement.style.setProperty("--imgRound", fontSizeValue + "px");
+        document.documentElement.style.setProperty("--blur", blurValue + "px");
+
+    }
+
+    function updateValue(e){
+        console.log(e);
+
+        const baseValue = document.querySelector("#base").value;
+        document.documentElement.style.setProperty("--base", baseValue);
+    }
+
+    fontSizeControl.addEventListener("change", updatePixel);
+    blurControl.addEventListener("change", updatePixel);
+    baseControl.addEventListener("change", updateValue);
+
+    fontSizeControl.addEventListener("mousemove", updatePixel);
+    blurControl.addEventListener("mousemove", updatePixel);
+
+
+
+  </script>
+
+</body>
+</html>
