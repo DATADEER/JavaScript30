@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <form class="search-form">
+    <input id="searchInput" type="text" class="search" placeholder="City or State">
+    <ul id="sugesstionsList" class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+<script>
+const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+const cities = [];
+
+function initialAllCities(endpoint){
+
+    fetch(endpoint)
+    .then((result)=>{
+        return result.json();
+    })
+    .then((result)=>{
+
+        cities.push(...result);
+        console.log(cities);
+    })
+    .error((error)=>{
+        console.error(error);
+
+    })
+
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function highlightInputInSearch(searchOutput, input){
+  return searchOutput.replace(input, `<span class="hl">${input}</span>`);
+}
+
+
+function filterSuggestions(cities,input){
+    return cities.filter((entry)=>{
+        return entry.city.toLowerCase().includes(input.toLowerCase());
+    })
+}
+
+function buildSuggestions(suggestions,input){
+  return suggestionsListItems = suggestions.map((city)=>{
+        return `<li><span>${highlightInputInSearch(city.city,input)} Population: ${numberWithCommas(city.population)}</span></li>`
+    });
+}
+function showSuggestions(suggestionListItems){
+
+    const suggestionsList = document.querySelector("#sugesstionsList")
+    suggestionsList.innerHTML = suggestionsListItems.join("");
+}
+
+window.addEventListener("load",()=>{
+
+    initialAllCities(endpoint);
+
+});
+
+
+
+
+searchInput.addEventListener("keyup", ()=>{
+
+    const searchInput = document.querySelector("#searchInput");
+    console.log(searchInput.value);
+    const input = searchInput.value;
+    const suggestions = filterSuggestions(cities,input);
+    const suggestionListItems = buildSuggestions(suggestions,input);
+    showSuggestions(suggestionListItems);
+
+});
+
+
+
+</script>
+  </body>
+</html>
