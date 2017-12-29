@@ -5,8 +5,70 @@
   <title>HTML5 Canvas</title>
 </head>
 <body>
-<canvas id="draw" width="800" height="800"></canvas>
+<canvas id="draw"></canvas>
 <script>
+
+    const allColorCodes = ["CRIMSON","RED","FIREBRICK","INDIANRED","PINK","HOTPINK","DEEPPINK","MEDIUMVIOLETRED","TOMATO","ORANGERED","DARKORANGE","YELLOW","DARKKHAKI","LIME","LIMEGREEN","SPRINGGREEN","YELLOWGREEN"];
+    const allLineWidths = [2,20,50,70,80,90,100,500];
+
+    function getRandomColor(allColorCodes){
+        const randomIndex = Math.round(Math.random() * (allColorCodes.length - 1));
+        console.log(randomIndex);
+        return allColorCodes[randomIndex];
+    }
+
+    function getRandomLineWidth(allStrokeWidths){
+        return getRandomColor(allStrokeWidths)
+    }
+
+    const canvas = document.querySelector("#draw");
+    const context = canvas.getContext("2d");
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    context.lineJoin = 'round';
+    context.lineCap = 'round';
+
+
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    canvas.addEventListener("mousemove", (event)=>{
+
+        if(isDrawing){
+
+            console.log(event);
+
+            context.beginPath();
+            context.moveTo(lastX,lastY);
+            context.lineTo(event.offsetX ,event.offsetY);
+            context.stroke();
+
+            lastX = event.offsetX;
+            lastY = event.offsetY;
+
+        }else{
+
+        }
+
+    })
+
+    canvas.addEventListener("mousedown", (event)=>{
+
+        context.strokeStyle = getRandomColor(allColorCodes);
+        context.lineWidth = getRandomLineWidth(allLineWidths);
+
+        isDrawing = true;
+
+        lastX = event.offsetX;
+        lastY = event.offsetY;
+    });
+    canvas.addEventListener("mouseup", (event)=>{ isDrawing = false});
+    canvas.addEventListener("mouseleave", (event)=>{ isDrawing = false});
+
+
 </script>
 
 <style>
