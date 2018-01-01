@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Console Tricks!</title>
+</head>
+<body>
+
+  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+  <script>
+    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
+
+    function makeGreen() {
+      const p = document.querySelector('p');
+      p.style.color = '#BADA55';
+      p.style.fontSize = '50px';
+    }
+
+    // Regular
+
+    console.log("something to show in console");
+
+    // Interpolated
+
+    console.log("hello %s", "world");
+
+    // Styled
+
+    console.log("a dog went down  %c the alley", "color:red; font-weight:bold; text-transform:uppercase;");
+
+    // warning!
+
+    console.warn("warning with stracktrace just for you")
+
+    // Error :|
+
+    console.error("error with stracktrace just for you")
+
+    // Info
+
+    console.info("info alert")
+
+    // Testing
+
+    console.assert(1 === 2, "that is so wrong");
+
+    // clearing
+
+    console.clear();
+
+    // Viewing DOM Elements
+
+    const p = document.querySelector("p");
+    console.dir(p);
+
+    // Grouping together
+
+    console.group();
+    console.log("one");
+    console.log("two");
+    console.groupEnd();
+
+    // counting
+
+    console.count("ID:823#321Kj2");
+    console.count("ID:823#321Kj2");
+    console.count("ID:823#321Kj2");
+    console.count("ID:823#321Kj2");
+    console.count("ID:823#321Kj2");
+
+    // timing
+
+    console.time();
+    setTimeout(()=>{
+        console.timeEnd();
+    },3000);
+
+
+  </script>
+</body>
+</html>
